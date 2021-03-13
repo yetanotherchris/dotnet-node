@@ -1,0 +1,25 @@
+name: docker
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ci-build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Docker build & push
+      id: dockerbuild
+      uses: matootie/github-docker@v3.1.0
+      with:
+        accessToken: ${{ github.token }}
+
+    - name: Print Image URLs
+      run: | 
+        echo ${{ steps.dockerbuild.outputs.imageURL }}
